@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试首页</title>
+    <meta charset="GB2312">
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <script type="text/javascript" src="js/jquery-1.7.js"></script>
+    <link rel="stylesheet" type="text/less" href="css/style.less"/>
+    <script type="text/javascript" src="js/less1_3.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+<div class="a">
+    <div class="boxLogo">
+        <a href="#"></a>
+    </div>
+    <div class="boxA" id="slideBox">
+        <ul>
+            <li><a href="#"><img src="images/slide1.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="images/slide2.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="images/slide3.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="images/slide4.jpg" alt=""/></a></li>
+        </ul>
+        <a href="#" class="btnPre"></a>
+        <a href="#" class="btnNext"></a>
+    </div>
+</div>
+<div class="b"></div>
+<script type="text/javascript">
+   var slide =  new Slide({
+       ele:$('#slideBox'),
+       speed1:3000,
+       speed2:30
+   });
+</script>
+</body>
+</html>

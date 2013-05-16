@@ -1,0 +1,21 @@
+.box{ width: 500px; height: 300px; border: 3px solid #000; position: absolute; cursor:move; right: 0; top: 0;}
+.tit{ height: 30px; line-height: 30px; background-color: #eee; font-size: 14px; text-indent: 2em;}
+.tab{ width: 500px;}
+.tabNav li{ float: left; display: inline; cursor: pointer; height: 28px; line-height: 28px; margin: 0 10px; border-radius: 3px;border: 1px solid #ccc; padding: 0 15px; border-bottom: none;}
+.tabCon{ width:500px; height: 300px; border: 1px solid #ccc; display: none;}
+.tabNav .on{ background-color: blue; color: #fff;}
+.test{ width: 100px; height: 100px; background-color: #c00; margin-top: 20px; opacity: 0.3; filter:alpha(opacity= 30);}
+.slide{ width: 564px; height: 295px; overflow: hidden;  margin-top: 20px; position: relative;}
+.slideCon li{ position: absolute; left: 0; top:0; opacity: 0; filter:alpha(opacity=0);}
+.opacity{ z-index: 2; position: absolute; bottom: 0; left: 0; width: 564px; height: 30px; background-color: #000; opacity: 0.5; filter:alpha(opacity=50);}
+.slideTit{ position: absolute; bottom: 0; z-index: 3; left: 0;width: 564px; height: 30px;}
+.slideTit li{ position: absolute; left: 0; top: 0; padding-left: 20px; width: 544px; opacity:0; filter:alpha(opacity=0);lheight: 30px; line-height: 30px; color: #fff;}
+.slideTit a:link,.slideTit a:visited{ color: #fff;}
+.slideTit a:hover{ color: #c00;}
+.slideNum{ position: absolute; right: 10px; bottom: 3px; z-index: 3; overflow: hidden; width: 100px; height: 15px;}
+.slideNum li{ float: left; display: inline; margin-left: 10px;}
+.slideNum a{ float: left; display: inline; width: 15px; height: 15px; line-height: 15px; background-color: #c00; text-align: center;}
+.slideNum a:link,.slideNum a:visited{ color: #fff; text-decoration: none;}
+.slideNum a:hover{ background-color: #fff; color: #c00;}
+.slideNum .onNum a:link,.slideNum .onNum a:visited{ color: #c00; background-color: #fff}
+
