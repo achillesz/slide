@@ -179,9 +179,12 @@ Animate.include({
         this.value += iSpeed;
 
         if(this.value === this.tar){
-            clearInterval(this.time);
+            this.clear();
         }
         this.setValue(attr,this.value);
+    },
+    clear:function(){
+        clearInterval(this.time);
     }
 });
 // add slide Class
@@ -195,6 +198,7 @@ Slide.fn.init = function(options){
     this.baseW = 0; // 基本宽度
     this.nowIndex = 0; // 索引值
     this.len = 0; // 一次图片长度
+    this.animate = null;
     $.extend(this,options);
     this.start();
 };
@@ -211,7 +215,7 @@ Slide.include({
         },this.speed1);
     },
     doMove:function(index){
-        new Animate({
+       this.animate = new Animate({
             attr:'left',
             ele:this.ele.find('ul'),
             value:this.ele.find('ul').css('left'),
@@ -222,18 +226,37 @@ Slide.include({
         if(typeof index != 'number'){
             this.nowIndex++;
         }
-
+        else{
+            this.nowIndex--;
+        }
         if(this.nowIndex === this.len + 1){
             this.ele.find('ul').css('left','0px');
             this.nowIndex = 0;
             this.nowIndex++;
         }
         if(this.nowIndex === -1){
+            alert(this.baseW*this.len)
+            this.ele.find('ul').css('left',this.baseW*this.len);
+
             this.nowIndex = this.len-1;
         }
     },
     bindEvent:function(){
-        
+        var _this = this;
+        this.ele.find('.btnPre').bind('click',function(){
+            clearInterval(_this.time1);
+            _this.setIndex(1);
+            _this.doMove(_this.nowIndex);
+        });
+        this.ele.find('.btnNext').bind('click',function(){
+            clearInterval(_this.time1);
+            _this.setIndex();
+            _this.doMove(_this.nowIndex);
+        })
+    },
+    clear:function(){
+        clearInterval(this.time1);
+        this.animate.clear();
     }
 });
 
