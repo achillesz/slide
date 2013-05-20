@@ -5,10 +5,13 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="css/base.css"/>
     <script type="text/javascript" src="js/jquery-1.7.js"></script>
-    <link rel="stylesheet" type="text/less" href="css/style.less"/>
-    <script type="text/javascript" src="js/less1_3.js"></script>
+
 </head>
 <body>
-
+<script type="text/javascript">
+    window.onload = function(){
+        setInterval(function(){document.body.innerHTML += ' 1'},30)
+    };
+</script>
 </body>
 </html>

@@ -11,6 +11,9 @@
     <script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
+<div class="weixin" id="weixin">
+    <img src="images/weixin.jpg" alt=""/>
+</div>
 <div class="a">
     <div class="boxLogo">
         <a href="#"></a>
@@ -26,7 +29,32 @@
         <a href="#" class="btnNext"></a>
     </div>
 </div>
-<div class="b"></div>
+<div class="b">
+    <div class="boxB clearfix">
+        <div class="fl video">
+            <object id="xxx" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" height="176" width="208"><param name="movie" value="http://flash.tool.hexun.com/flashVideo/zhiBoPlayer/player.swf?s=rtmp://videocast.hexun.com:443/videoLive&amp;n=mov&amp;tvs=http://ana.utrack.hexun.com/pubinterface/io/fileinterface.aspx&amp;proid=10002&amp;icid=080E51D1A7F6B458&amp;tvname=%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91&amp;delay="><param name="quality" value="high"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="wmode" value="transparent"><embed name="xxx" src="http://flash.tool.hexun.com/flashVideo/zhiBoPlayer/player.swf?s=rtmp://videocast.hexun.com:443/videoLive&amp;n=mov&amp;tvs=http://ana.utrack.hexun.com/pubinterface/io/fileinterface.aspx&amp;proid=10002&amp;icid=080E51D1A7F6B458&amp;tvname=%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91&amp;delay=" quality="high" allowscriptaccess="always" allowfullscreen="true" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" height="176" width="208"></object>
+        </div>
+        <div class="fl textMod">
+            <span>李娜</span>法网状态会如何？踏上赛场那一刻，这也许已不再那么重要。
+            若火力全开，我们为她<span>呐喊</span>，让激情的汗水与喜悦的泪水肆意流淌；
+            若状态起伏，我们仍为她鼓劲，只是漫长旅途中的一座小山，我们愿与她一起越过。
+            成也好，败也罢，<span>荣耀</span>是一种心境。
+            2013年5月26日，<span>泰康人寿</span>愿与13亿国人一起，成为李娜的后盾、保障与力量。
+        </div>
+
+    </div>
+    <div class="boxB clearfix">
+        <a href="#" class="boxa1 fl" id="boxa1"><span class="span1">1208<span>人</span></span></a>
+        <a href="#" class="boxa2 fl"></a>
+        <a href="#" class="boxa3 fl"></a>
+    </div>
+    <div class="boxB">
+        <div class="footer">
+        Copyright<span class="eng">&copyright;</span>和讯网 和讯信息科技有限公司 All Rights Reserved 版权所有 复制必究
+        </div>
+
+    </div>
+</div>
 <!--<div class="layer"></div>
 <div class="tc">
     <span class="close"></span>
@@ -62,10 +90,31 @@
 </div>-->
 <script type="text/javascript">
    var slide =  new Slide({
-       ele:$('#slideBox'),
-       speed1:3000,
-       speed2:30
+       ele:$('#slideBox')
    });
+   $('#boxa1').click(function(e){
+       $.ajax({
+           url:'js/data1.js',
+           type:"get",
+           dataType:'json',
+           success:function(data){
+               if(data.status == 1){
+                   $('#boxa1 > span').html(data.num + '<span>人</span>');
+               }
+           }
+       });
+
+       e.preventDefault();
+   });
+   $(function(){
+       var left = (document.documentElement.clientWidth || document.body.clientWidth)/2;
+       var  top = 330;
+       left += 385;
+       $('#weixin').css({left:left,top:top});
+
+
+   });
+
 </script>
 </body>
 </html>

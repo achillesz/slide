@@ -158,6 +158,7 @@ Animate.include({
     start:function(){
         var _this = this;
         this.time = setInterval(function(){
+            //console.log(1)
             _this.doIt(_this.attr);
         },this.speed2)
     },
@@ -174,6 +175,7 @@ Animate.include({
         this.ele.css(attr,value);
     },
     doIt:function(attr){
+
         this.animated = true;
         var iSpeed;
         this.value = this.getValue(attr);
@@ -192,15 +194,19 @@ Animate.include({
 // add slide Class
 var Slide = Class();
 Slide.fn.init = function(options){
-    this.ele = null;// ����Ԫ��
-    this.time1 = null;// ��ʱ��1
-    this.time2 = null;// ��ʱ��2
-    this.speed1 = 3000;// �����ֻ�Ƶ��
-    this.speed2 = 5;// �������һ�ε��ٶ�
-    this.baseW = 0; // ����
-    this.nowIndex = 0; // ����ֵ
-    this.len = 0; // һ��ͼƬ����
-    this.animate = null;
+    this.ele = null;
+    this.eleTar = null;
+    this.time1 = null;
+    this.time2 = null;
+    this.speed1 = 3000;
+    this.speed2 = 30;
+    this.speed3 = 8;
+    this.baseW = 0;
+    this.nowIndex = 0;
+    this.len = 0;
+    this.attr = 'left';
+    this.tar = 0;
+    this.animated = null;
     $.extend(this,options);
     this.start();
 };
@@ -209,7 +215,8 @@ Slide.include({
         var _this = this;
         this.baseW = this.ele.find('li').eq(0).width();
         this.len = this.ele.find('li').length;
-        this.ele.find('ul').append(this.ele.find('ul').html());
+        this.eleTar =  this.ele.find('ul');
+        this.eleTar.append(this.ele.find('ul').html());
         this.bindEvent();
         this.time1 = setInterval(function(){
             _this.setIndex();
@@ -217,12 +224,12 @@ Slide.include({
         },this.speed1);
     },
     doMove:function(index){
-       this.animate = new Animate({
-            attr:'left',
-            ele:this.ele.find('ul'),
-            value:this.ele.find('ul').css('left'),
-            tar:-index*this.baseW
-        });
+        var _this = this;
+        this.tar = -index*this.baseW;
+        //console.log(this.tar);
+        this.time2 = setInterval(function(){
+            _this.doIt(_this.attr);
+        },this.speed2);
     },
     setIndex:function(index){
         if(typeof index != 'number'){
@@ -237,18 +244,18 @@ Slide.include({
             this.nowIndex++;
         }
         if(this.nowIndex === -1){
-            this.ele.find('ul').css('left',-this.baseW*this.len);
+            this.eleTar.css('left',-this.baseW*this.len);
             this.nowIndex = this.len-1;
         }
     },
     bindEvent:function(){
         var _this = this;
         this.ele.find('.btnPre').bind('click',function(){
-            if(_this.animate.animated === true) return;
-            _this.clear();
+            if(_this.animated === true) return;
+            _this.clear1();
             _this.setIndex(1);
             _this.doMove(_this.nowIndex);
-            if(_this.animate.animated === false){
+            if(_this.animated === false){
                 _this.time1 = setInterval(function(){
                     _this.setIndex();
                     _this.doMove(_this.nowIndex);
@@ -256,11 +263,11 @@ Slide.include({
             }
         });
         this.ele.find('.btnNext').bind('click',function(){
-            if(_this.animate.animated === true) return;
-            _this.clear();
+            if(_this.animated === true) return;
+            _this.clear1();
             _this.setIndex();
             _this.doMove(_this.nowIndex);
-            if(_this.animate.animated === false){
+            if(_this.animated === false){
                 _this.time1 = setInterval(function(){
                     _this.setIndex();
                     _this.doMove(_this.nowIndex);
@@ -268,9 +275,35 @@ Slide.include({
             }
         })
     },
-    clear:function(){
+    getValue:function(attr){
+        if(attr === 'opacity'){
+            return this.ele.css(attr)*100;
+        }
+        return parseInt(this.eleTar.css(attr));
+    },
+    setValue:function(attr,value){
+        if(attr == 'opacity'){
+            return this.eleTar.css(attr,value/100);
+        }
+        this.eleTar.css(attr,value);
+    },
+    doIt:function(attr){
+        this.animated = true;
+        var iSpeed;
+        this.value = this.getValue(attr);
+        iSpeed = (this.tar - this.value) > 0 ? Math.ceil((this.tar - this.value) / this.speed3 ) : Math.floor((this.tar - this.value) / this.speed3);
+        this.value += iSpeed;
+        if(this.value === this.tar){
+            this.animated = false;
+            this.clear2();
+        }
+        this.setValue(attr,this.value);
+    },
+    clear2:function(){
+        clearInterval(this.time2);
+    },
+    clear1:function(){
         clearInterval(this.time1);
-        this.animate.clear();
     }
 });
 
