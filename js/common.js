@@ -2,10 +2,10 @@
  * Created with JetBrains PhpStorm.
  * User: Administrator
  * Date: 13-4-28
- * Time: ÉÏÎç10:18
+ * Time: ï¿½ï¿½ï¿½ï¿½10:18
  * To change this template use File | Settings | File Templates.
  */
-// ¼Ì³Ð
+// ï¿½Ì³ï¿½
 function Class(parent) {
     var kclass = function () {
         if (parent) {
@@ -50,7 +50,7 @@ function Class(parent) {
 
 // Add Class Drag
 var Drag = Class();
-// ³õÊ¼»¯Àà
+// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 Drag.fn.init = function(dragEle){
     this.dragEle = dragEle;
     this.tar =  null;
@@ -60,7 +60,7 @@ Drag.fn.init = function(dragEle){
     this.disY = 0;
     this.start();
 };
-// À©Õ¹Ô­ÐÍ
+// ï¿½ï¿½Õ¹Ô­ï¿½ï¿½
 Drag.include({
     start:function(){
         var _this = this;
@@ -103,7 +103,7 @@ Drag.include({
 
 // add Tab Class
 var Tab = Class();
-// ³õÊ¼»¯Àà
+// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 Tab.fn.init = function(options){
     this.elem = null;
     this.navs = null;
@@ -115,7 +115,7 @@ Tab.fn.init = function(options){
     $.extend(this,options);
     this.start();
 };
-// À©Õ¹Ô­ÐÍ
+// ï¿½ï¿½Õ¹Ô­ï¿½ï¿½
 Tab.include({
     start:function(){
         this.navs = this.ele.find('ul:first li');
@@ -150,6 +150,7 @@ Animate.fn.init = function(options){
     this.speed = 5;
     this.speed2 = 30;
     this.attr = '';
+    this.animated = false;
     $.extend(this,options);
     this.start();
 }
@@ -173,12 +174,13 @@ Animate.include({
         this.ele.css(attr,value);
     },
     doIt:function(attr){
+        this.animated = true;
         var iSpeed;
         this.value = this.getValue(attr);
         iSpeed = (this.tar - this.value) > 0 ? Math.ceil((this.tar - this.value) / this.speed ) : Math.floor((this.tar - this.value) / this.speed);
         this.value += iSpeed;
-
         if(this.value === this.tar){
+            this.animated = false;
             this.clear();
         }
         this.setValue(attr,this.value);
@@ -190,14 +192,14 @@ Animate.include({
 // add slide Class
 var Slide = Class();
 Slide.fn.init = function(options){
-    this.ele = null;// ÈÝÆ÷ÔªËØ
-    this.time1 = null;// ¶¨Ê±Æ÷1
-    this.time2 = null;// ¶¨Ê±Æ÷2
-    this.speed1 = 3000;// ¿ØÖÆÂÖ»»ÆµÂÊ
-    this.speed2 = 5;// ¿ØÖÆÍê³ÉÒ»´ÎµÄËÙ¶È
-    this.baseW = 0; // »ù±¾¿í¶È
-    this.nowIndex = 0; // Ë÷ÒýÖµ
-    this.len = 0; // Ò»´ÎÍ¼Æ¬³¤¶È
+    this.ele = null;// ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
+    this.time1 = null;// ï¿½ï¿½Ê±ï¿½ï¿½1
+    this.time2 = null;// ï¿½ï¿½Ê±ï¿½ï¿½2
+    this.speed1 = 3000;// ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½Æµï¿½ï¿½
+    this.speed2 = 5;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Îµï¿½ï¿½Ù¶ï¿½
+    this.baseW = 0; // ï¿½ï¿½ï¿½ï¿½
+    this.nowIndex = 0; // ï¿½ï¿½ï¿½ï¿½Öµ
+    this.len = 0; // Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
     this.animate = null;
     $.extend(this,options);
     this.start();
@@ -235,23 +237,35 @@ Slide.include({
             this.nowIndex++;
         }
         if(this.nowIndex === -1){
-            alert(this.baseW*this.len)
-            this.ele.find('ul').css('left',this.baseW*this.len);
-
+            this.ele.find('ul').css('left',-this.baseW*this.len);
             this.nowIndex = this.len-1;
         }
     },
     bindEvent:function(){
         var _this = this;
         this.ele.find('.btnPre').bind('click',function(){
-            clearInterval(_this.time1);
+            if(_this.animate.animated === true) return;
+            _this.clear();
             _this.setIndex(1);
             _this.doMove(_this.nowIndex);
+            if(_this.animate.animated === false){
+                _this.time1 = setInterval(function(){
+                    _this.setIndex();
+                    _this.doMove(_this.nowIndex);
+                },_this.speed1);
+            }
         });
         this.ele.find('.btnNext').bind('click',function(){
-            clearInterval(_this.time1);
+            if(_this.animate.animated === true) return;
+            _this.clear();
             _this.setIndex();
             _this.doMove(_this.nowIndex);
+            if(_this.animate.animated === false){
+                _this.time1 = setInterval(function(){
+                    _this.setIndex();
+                    _this.doMove(_this.nowIndex);
+                },_this.speed1);
+            }
         })
     },
     clear:function(){
